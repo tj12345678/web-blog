@@ -1,0 +1,2 @@
+2019-11-19.13:00:20 ERROR [main] com.niit.web.blog.util.JSoupSpider.lambda$getArticles$1:82  文章获取失败
+2019-11-19.13:01:01 INFO  [main] com.niit.web.blog.dao.ArticleDaoTest.batchInsert:40  获取文章数据成功
