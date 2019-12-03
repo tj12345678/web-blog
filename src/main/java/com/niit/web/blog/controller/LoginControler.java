@@ -20,21 +20,21 @@ public class LoginControler extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String code = req.getParameter("code");
         System.out.println(code);
-        String sessionId=null;
+        String sessionId = null;
         Cookie[] cookies = req.getCookies();
-        for (Cookie cookie:cookies){
-            if ("JSESSIONID".equals(cookie.getName())){
+        for (Cookie cookie : cookies) {
+            if("JSESSIONID".equals(cookie.getName())){
                 sessionId = cookie.getValue();
-                    break;
+                break;
             }
         }
         System.out.println(sessionId);
         MySessionContext myc = MySessionContext.getInstance();
         HttpSession session = myc.getSession(sessionId);
         String correctCode = session.getAttribute("code").toString();
-        if (code.equalsIgnoreCase(correctCode)){
+        if(code.equalsIgnoreCase(correctCode)){
             resp.getWriter().write("登录成功");
-        }else{
+        }else {
             resp.getWriter().write("验证码错误");
         }
     }

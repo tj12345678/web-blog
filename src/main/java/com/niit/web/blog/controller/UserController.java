@@ -5,11 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.niit.web.blog.domain.Dto.UserDto;
 import com.niit.web.blog.factory.ServiceFactory;
 import com.niit.web.blog.service.UserService;
-import com.niit.web.blog.util.HttpUtil;
-import com.niit.web.blog.util.MySessionContext;
-import com.niit.web.blog.util.ResultCode;
-
-import com.niit.web.blog.util.UrlPatten;
+import com.niit.web.blog.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
 import java.io.IOException;
 
 /**
@@ -31,8 +26,9 @@ import java.io.IOException;
  **/
 @WebServlet(urlPatterns = {"/api/user", "/api/user/*"})
 public class UserController extends HttpServlet {
-    private static Logger logger= LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
     private UserService userService = ServiceFactory.getUserServiceInstance();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,17 +38,18 @@ public class UserController extends HttpServlet {
             String keywords = req.getParameter("keywords");
             String count = req.getParameter("count");
             if (page != null) {
-                HttpUtil.getResponseBody(resp, (Result) userService.selectByPage(Integer.parseInt(page), Integer.parseInt(count)));
+                HttpUtil.getResponseBody(resp, userService.selectByPage(Integer.parseInt(page), Integer.parseInt(count)));
             } else if (keywords != null) {
-                HttpUtil.getResponseBody(resp, (Result) userService.selectByKeywords(keywords));
+                HttpUtil.getResponseBody(resp, userService.selectByKeywords(keywords));
             } else {
-                HttpUtil.getResponseBody(resp, (Result) userService.getHotUsers());
+                HttpUtil.getResponseBody(resp, userService.getHotUsers());
             }
         } else {
             System.out.println(uri);
-            HttpUtil.getResponseBody(resp, (Result) userService.getUser(Long.parseLong(HttpUtil.getPathParam(req))));
+            HttpUtil.getResponseBody(resp, userService.getUser(Long.parseLong(HttpUtil.getPathParam(req))));
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,11 +63,12 @@ public class UserController extends HttpServlet {
                 break;
             case UrlPatten.USER_CHECK_MOBILE:
                 String mobile = req.getParameter("mobile");
-                HttpUtil.getResponseBody(resp, (Result) userService.checkMobile(mobile));
+                HttpUtil.getResponseBody(resp, userService.checkMobile(mobile));
                 break;
             default:
         }
     }
+
     private void signIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestBody = HttpUtil.getRequestBody(req);
         logger.info("登录用户信息：" + requestBody);
@@ -87,11 +85,11 @@ public class UserController extends HttpServlet {
         String correctCode = session.getAttribute("code").toString();
         //忽略大小写比对
         if (inputCode.equalsIgnoreCase(correctCode)) {
-            HttpUtil.getResponseBody(resp, (Result) userService.signIn(userDto));
+            HttpUtil.getResponseBody(resp, userService.signIn(userDto));
             //验证码正确，进入登录业务逻辑调用
         } else {
             //验证码错误，直接将错误信息返回给客户端，不要继续登录流程了
-            HttpUtil.getResponseBody(resp, (Result) com.niit.web.blog.util.Result.failure(ResultCode.USER_VERIFY_CODE_ERROR));
+            HttpUtil.getResponseBody(resp, Result.failure(ResultCode.USER_VERIFY_CODE_ERROR));
         }
     }
 

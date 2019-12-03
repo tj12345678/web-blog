@@ -2,9 +2,10 @@ package com.niit.web.blog.service.impl;
 
 import com.niit.web.blog.dao.ArticleDao;
 import com.niit.web.blog.domain.Vo.ArticleVo;
-import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.factory.DaoFactory;
 import com.niit.web.blog.service.ArticleService;
+import com.niit.web.blog.util.Result;
+import com.niit.web.blog.util.ResultCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,27 +21,65 @@ import java.util.List;
  **/
 public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao = DaoFactory.getArticleDaoInstance();
-    private Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
-    @Override
-    public List<Article> listArticle() {
-        List<Article> articleList=null;
+    private static Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
+    @Override
+    public Result getHotArticles() {
+        List<ArticleVo> articleVoList = null;
         try {
-            articleList = articleDao.selectAll();
+            articleVoList = articleDao.selectHotArticles();
         } catch (SQLException e) {
-            logger.error("查询所有文章信息出现异常");
+            logger.error("查询热门文章出现异常");
         }
-        return articleList;
+        if (articleVoList != null) {
+            return Result.success(articleVoList);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
     }
 
     @Override
-    public List<ArticleVo> listAuthorArticle(long id) {
+    public Result getArticlesByPage(int currentPage, int count) {
         List<ArticleVo> articleVoList = null;
         try {
-            articleVoList = articleDao.selectAuthorArticle(id);
+            articleVoList = articleDao.selectByPage(currentPage, count);
         } catch (SQLException e) {
-            logger.error("查询登录用户文章信息异常");
+            logger.error("分页查询文章出现异常");
         }
-        return articleVoList;
+        if (articleVoList != null) {
+            return Result.success(articleVoList);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+    @Override
+    public Result getArticle(long id) {
+        ArticleVo articleVo = null;
+        try {
+            articleVo = articleDao.getArticle(id);
+        } catch (SQLException e) {
+            logger.error("根据id查询文章出现异常");
+        }
+        if (articleVo != null) {
+            return Result.success(articleVo);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+    @Override
+    public Result selectByKeywords(String keywords) {
+        List<ArticleVo> articleVoList = null;
+        try {
+            articleVoList = articleDao.selectByKeywords(keywords);
+        } catch (SQLException e) {
+            logger.error("根据关键字查询文章出现异常");
+        }
+        if (articleVoList != null) {
+            return Result.success(articleVoList);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
     }
 }

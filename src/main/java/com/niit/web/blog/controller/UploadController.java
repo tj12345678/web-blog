@@ -26,9 +26,12 @@ public class UploadController extends HttpServlet {
         System.out.println(name);
         String path = req.getSession().getServletContext().getRealPath("");
         System.out.println(path);
-        part.write(path+name);
-        req.setAttribute("msg","上传成功!");
-        req.getRequestDispatcher("/upload.jsp").forward(req,resp);
-
+        //f:\\blog\\target\\blog\\1.jpg
+        part.write(path + name);
+        System.out.println(path + name);
+        resp.setContentType("image/jpg");
+        req.setAttribute("msg", "上传成功！");
+        req.setAttribute("url", "http://localhost:8080/" + name);
+        req.getRequestDispatcher("/upload.jsp").forward(req, resp);
     }
 }

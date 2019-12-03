@@ -2,6 +2,7 @@ package com.niit.web.blog.util;
 
 import com.niit.web.blog.domain.Vo.ArticleVo;
 import com.niit.web.blog.entity.Article;
+import com.niit.web.blog.entity.Topic;
 import com.niit.web.blog.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,13 @@ public class BeanHandler {
                 user.setGender(rs.getString("gender"));
                 user.setBirthday(rs.getDate("birthday").toLocalDate());
                 user.setIntroduction(rs.getString("introduction"));
+                user.setHomepage(rs.getString("homepage"));
+                user.setBanner(rs.getString("banner"));
+                user.setEmail(rs.getString("email"));
                 user.setAddress(rs.getString("address"));
-                user.setFollows(rs.getShort("Follows"));
-                user.setFans(rs.getShort("fans"));
-                user.setArticles(rs.getShort("articles"));
+                user.setFollows(rs.getInt("follows"));
+                user.setFans(rs.getInt("fans"));
+                user.setArticles(rs.getInt("articles"));
                 user.setCreateTime(rs.getTimestamp("create_time").toLocalDateTime());
                 user.setStatus(rs.getShort("status"));
                 userList.add(user);
@@ -55,12 +59,13 @@ public class BeanHandler {
                 //文章自身信息
                 Article article = new Article();
                 article.setId(rs.getLong("id"));
-                article.setAuthorId(rs.getLong("author_id"));
-                article.setAvatar(rs.getString("avatar"));
+                article.setUserId(rs.getLong("user_id"));
+                article.setTopicId(rs.getLong("topic_id"));
                 article.setTitle(rs.getString("title"));
-                article.setContent(rs.getString("content"));
-                article.setCommentAccount(rs.getInt("comment_account"));
-                article.setLikeAccount(rs.getInt("like_account"));
+                article.setSummary(rs.getString("summary"));
+                article.setThumbnail(rs.getString("thumbnail"));
+                article.setLikes(rs.getInt("likes"));
+                article.setComments(rs.getInt("comments"));
                 article.setCreateTime(rs.getTimestamp("create_time").toLocalDateTime());
                 //作者信息
                 User author = new User();
@@ -68,10 +73,16 @@ public class BeanHandler {
                 author.setNickname(rs.getString("nickname"));
                 author.setAvatar(rs.getString("avatar"));
 
+                //专题信息
+                Topic topic = new Topic    ();
+                topic.setId(rs.getLong("topic_id"));
+                topic.setTopicName(rs.getString("topic_name"));
+                topic.setLogo(rs.getString("logo"));
+
                 //给文章视图对象设置三块内容
                 articleVo.setArticle(article);
                 articleVo.setAuthor(author);
-
+                articleVo.setTopic(topic);
                 //加入列表
                 articleVoList.add(articleVo);
             }
@@ -79,5 +90,26 @@ public class BeanHandler {
             logger.error("文章数据结果集解析异常");
         }
         return articleVoList;
+    }
+    public static List<Topic> convertTopic(ResultSet rs) {
+        List<Topic> topicList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Topic topic = new Topic();
+                topic.setId(rs.getLong("id"));
+                topic.setAdminId(rs.getLong("admin_id"));
+                topic.setTopicName(rs.getString("topic_name"));
+                topic.setLogo(rs.getString("logo"));
+                topic.setDescription(rs.getString("description"));
+                topic.setHomepage(rs.getString("homepage"));
+                topic.setArticles(rs.getInt("articles"));
+                topic.setFollows(rs.getInt("follows"));
+                topic.setCreateTime(rs.getTimestamp("create_time").toLocalDateTime());
+                topicList.add(topic);
+            }
+        } catch (SQLException e) {
+            logger.error("专题数据结果集解析产生异常");
+        }
+        return topicList;
     }
 }

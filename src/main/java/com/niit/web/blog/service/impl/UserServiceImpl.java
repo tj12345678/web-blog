@@ -25,9 +25,9 @@ import java.util.List;
  * @Version 1.0
  **/
 public class UserServiceImpl implements UserService {
-    private UserDao userDao= DaoFactory.getUserDaoInstance();
+    private UserDao userDao = DaoFactory.getUserDaoInstance();
     private ArticleDao articleDao = DaoFactory.getArticleDaoInstance();
-    private static Logger logger= LoggerFactory.getLogger(UserServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public Result signIn(UserDto userDto) {
@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
             return Result.failure(ResultCode.USER_ACCOUNT_ERROR);
         }
     }
+
 
     @Override
     public Result getHotUsers() {
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
         }
         if (userVo != null) {
             try {
-                List<ArticleVo> articleVoList = articleDao.selectAuthorArticle(id);
+                List<ArticleVo> articleVoList = articleDao.selectByUserId(id);
                 userVo.setArticleList(articleVoList);
                 return Result.success(userVo);
             } catch (SQLException e) {

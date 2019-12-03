@@ -2,26 +2,22 @@ package com.niit.web.blog.util;
 
 
 import ch.qos.logback.core.db.dialect.DBUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
  * 数据库操作工具类
  */
 public class DBUtils {
-    private static String URL;
-    private static String USERNAME;
-    private static String PASSWORD;
-    private static Connection conn = null;
     private static final Logger logger = LoggerFactory.getLogger(DBUtil.class);
+    private static Properties properties;
 
 
     /**
@@ -37,14 +33,18 @@ public class DBUtils {
 
     //使用静态块加载驱动程序，只执行一次
     static {
-        URL = rb.getString("jdbc.url");
-        USERNAME = rb.getString("jdbc.username");
-        PASSWORD = rb.getString("jdbc.password");
-        String driver = rb.getString("jdbc.driver");
+        properties = new Properties();
         try {
-            Class.forName(driver);
+            InputStream ins = DBUtils.class.getClassLoader().getResourceAsStream("db-config.properties");
+            assert ins != null;
+            properties.load(ins);
+            Class.forName(properties.getProperty("jdbc.driverClassName"));
+        } catch (FileNotFoundException e) {
+            logger.error("数据库配置文件未找到");
+        } catch (IOException e) {
+            logger.error("数据库配置文件读写错误");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("数据库驱动未找到");
         }
     }
 
@@ -54,14 +54,16 @@ public class DBUtils {
      * @return Connection
      */
     public static Connection getConnection() {
-        if (conn == null) {
-            try {
-                conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            } catch (SQLException e) {
-                logger.error(LocalDateTime.now() + "数据库连接失败");
-            }
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(
+                    properties.getProperty("jdbc.url"),
+                    properties.getProperty("jdbc.username"),
+                    properties.getProperty("jdbc.password"));
+        } catch (SQLException e) {
+            logger.error("数据库连接失败");
         }
-        return conn;
+        return connection;
     }
 
     /**
@@ -133,9 +135,6 @@ public class DBUtils {
     }
 
     public static void main(String[] args) {
-        Connection connection = null;
-        for (int i = 0; i < 3; i++) {
-            connection = DBUtils.getConnection();
-        }
+        DBUtils.getConnection();
     }
 }

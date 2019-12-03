@@ -13,8 +13,9 @@ import com.niit.web.blog.util.Result;
 public interface UserService {
     /**
      * 用户登录功能
+     *
      * @param userDto
-     * @return
+     * @return Result
      */
     Result signIn(UserDto userDto);
 
@@ -61,6 +62,4 @@ public interface UserService {
      * @return Result
      */
     Result signUp(UserDto userDto);
-
-
 }

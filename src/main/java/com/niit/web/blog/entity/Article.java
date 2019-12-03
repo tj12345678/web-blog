@@ -13,14 +13,15 @@ import java.time.LocalDateTime;
  **/
 @Data
 public class Article {
+
     private Long id;
-    private Long authorId;
+    private Long userId;
+    private Long topicId;
     private String title;
-    private String description;
+    private String summary;
+    private String thumbnail;
     private String content;
-    private String avatar;
-    private Integer commentAccount;
-    private Integer likeAccount;
-    private Integer forwardAccount;
+    private Integer likes;
+    private Integer comments;
     private LocalDateTime createTime;
 }

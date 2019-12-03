@@ -20,7 +20,7 @@ public interface UserDao {
      * @return
      * @throws SQLException
      */
-    int[] batchInsert(List<User> userList) throws SQLException;
+    void batchInsert(List<User> userList) throws SQLException;
 
     /**
      * 通过手机号查询

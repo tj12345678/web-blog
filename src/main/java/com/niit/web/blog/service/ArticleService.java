@@ -1,9 +1,6 @@
 package com.niit.web.blog.service;
 
-import com.niit.web.blog.domain.Vo.ArticleVo;
-import com.niit.web.blog.entity.Article;
-
-import java.util.List;
+import com.niit.web.blog.util.Result;
 
 /**
  * @author tj
@@ -14,15 +11,35 @@ import java.util.List;
  **/
 public interface ArticleService {
     /**
-     * 查询所有文章信息
+     * 获取热门文章
+     *
      * @return
      */
-    public List<Article> listArticle();
+    Result getHotArticles();
 
     /**
-     * 两表联查，查询用户对应的文章信息
+     * 获取分页文章
+     *
+     * @param currentPage
+     * @param count
+     * @return
+     */
+    Result getArticlesByPage(int currentPage, int count);
+
+    /**
+     * 获取文章详情
+     *
      * @param id
      * @return
      */
-    public List<ArticleVo> listAuthorArticle(long id);
+    Result getArticle(long id);
+
+
+    /**
+     * 根据标题或摘要模糊查询文章
+     *
+     * @param keywords
+     * @return
+     */
+    Result selectByKeywords(String keywords);
 }

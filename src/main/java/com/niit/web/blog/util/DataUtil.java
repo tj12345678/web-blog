@@ -1,8 +1,15 @@
 package com.niit.web.blog.util;
 
+import com.niit.web.blog.entity.Region;
+import com.niit.web.blog.factory.DaoFactory;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,100 +23,102 @@ import java.util.Random;
 
 
 public class DataUtil {
-    /**
-     * 获得电话号码
-     * @return
-     */
-   public static String getMobile(){
-       StringBuilder stringBuilder = new StringBuilder("139");
-       Random random = new Random();
-       for (int i=0;i<8;i++){
-           int num = random.nextInt(10);
-           stringBuilder.append(num);
-       }
-       return stringBuilder.toString();
-   }
+    private static Logger logger = LoggerFactory.getLogger(DataUtil.class);
+    private static final int MOBILE_COUNT = 8;
+    private static final int PASSWORD_COUNT = 6;
 
     /**
-     * 随机生成密码
+     * 随机生成手机号
+     *
      * @return
      */
-   public static String getPassword(){
-       StringBuilder password= new StringBuilder();
-       Random random = new Random();
-       for(int i=0; i<6; i++){
-           int num= random.nextInt(10);
-           password.append(num);
-       }
-       return DigestUtils.md2Hex(password.toString());
-   }
-
-    /**
-     * 随机获得性别
-     * @return
-     */
-   public static String getGender(){
-       String[] genders = new String[]{"男","女"};
-       Random random = new Random();
-//       根据数据索引获取值
-       int index =random.nextInt(2);
-       return genders[index];
-   }
-
-    /**
-     * 随机获取生日日期
-     * @return
-     */
-   public static LocalDate getBirthday(){
-       LocalDate now = LocalDate.now();
-       Random random = new Random();
-       int bound = random.nextInt(6666);
-//       当前日期的前bound天
-       return now.minusDays(bound);
-   }
-
-    /**
-     * 随机生成关注量
-     * @return
-     */
-   public  static int getLikeAccount(){
-       Random random = new Random();
-       int account = random.nextInt(500);
-       return account;
-   }
-
-    /**
-     * 随机生成评论人数
-     * @return
-     */
-   public static int getCommentAccount(){
-       Random random = new Random();
-       int account = random.nextInt(500);
-       return account;
-   }
-   public static int getForwordAccount(){
-       Random random = new Random();
-       int account = random.nextInt(200);
-       return account;
-   }
-
-   public static long getAuthorid(){
-       Random random = new Random();
-       int account = random.nextInt(73);
-       return account;
-   }
-
-    public static String getVerification(int a){
+    public static String getMobile() {
         Random random = new Random();
-        String resultStr="";
-        String strData="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-        char[] arr= strData.toCharArray();
-        for(int i=0;i<a;i++){
-            int index= (int) (Math.random()*arr.length);
-            resultStr+=arr[index];
+        StringBuilder stringBuilder = new StringBuilder("139");
+        for (int i = 0; i < MOBILE_COUNT; i++) {
+            stringBuilder.append(random.nextInt(9));
         }
-        return resultStr;
+        return stringBuilder.toString();
+    }
 
-    };
+    /**
+     * 生成密码并用MD5加密
+     *
+     * @return
+     */
+    public static String getPassword() {
+//        Random random = new Random();
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < PASSWORD_COUNT; i++) {
+//            stringBuilder.append(random.nextInt(9));
+//        }
+        return DigestUtils.md5Hex("111");
+    }
 
+    /**
+     * 随机生成性别
+     *
+     * @return
+     */
+    public static String getGender() {
+        Random random = new Random();
+        String[] data = new String[]{"男", "女"};
+        int index = random.nextInt(2);
+        return data[index];
+    }
+
+    /**
+     * 随机生成生日
+     *
+     * @return
+     */
+    public static LocalDate getBirthday() {
+        LocalDate now = LocalDate.now();
+        Random random = new Random();
+        int bound = random.nextInt(8888);
+        return now.minusDays(bound);
+    }
+
+    /**
+     * 随机生成地址
+     *
+     * @return
+     */
+    public static String getAddress() {
+        Random random = new Random();
+        String address = null;
+        try {
+            List<Region> regionList = DaoFactory.getRegionDaoInstance().selectAll();
+            Region region = regionList.get(random.nextInt(regionList.size()));
+            address = region.getMergeName();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    /**
+     * 生成时间
+     *
+     * @return
+     */
+    public static LocalDateTime getCreateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        Random random = new Random();
+        int bound = random.nextInt(999);
+        return now.minusHours(bound);
+    }
+
+    /**
+     * @return
+     */
+    public static Long getUserId() {
+        Random random = new Random();
+        long bound = random.nextInt(21);
+        return bound;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DigestUtils.md5Hex("111"));
+    }
 }
