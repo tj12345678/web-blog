@@ -2,16 +2,11 @@ package com.niit.web.blog.domain.Dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
     private String mobile;
     private String password;
-//    数据传输对象
-    public UserDto(String mobile, String password) {
-        this.mobile = mobile;
-        this.password = password;
-    }
-
-    public UserDto() {
-    }
+    private String code;
 }

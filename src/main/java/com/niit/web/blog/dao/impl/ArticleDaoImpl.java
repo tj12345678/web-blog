@@ -3,8 +3,8 @@ package com.niit.web.blog.dao.impl;
 import com.niit.web.blog.dao.ArticleDao;
 import com.niit.web.blog.domain.Vo.ArticleVo;
 import com.niit.web.blog.entity.Article;
+import com.niit.web.blog.util.BeanHandler;
 import com.niit.web.blog.util.DBUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,13 +75,12 @@ public class ArticleDaoImpl implements ArticleDao {
         int[] n = pstmt.executeBatch();
 //        数据库提交
         connection.commit();
-        DBUtils.close(null, pstmt, connection);
+        DBUtils.close(connection, pstmt);
         return n;
     }
 
     @Override
     public List<ArticleVo> selectAuthorArticle(long id) throws SQLException {
-        List<ArticleVo> articleVoList = new ArrayList<>(20);
         Connection connection = DBUtils.getConnection();
 //        在文章表和用户表联查，得到视图对象
         String sql = "SELECT a.id,a.author_id,a.title,a.comment_account,a.avatar," +
@@ -94,19 +93,10 @@ public class ArticleDaoImpl implements ArticleDao {
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setLong(1, id);
         ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            ArticleVo articleVo = new ArticleVo();
-            articleVo.setId(rs.getLong("id"));
-            articleVo.setAuthorId(rs.getLong("author_id"));
-            articleVo.setAvatar(rs.getString("avatar"));
-            articleVo.setTitle(rs.getString("title"));
-            articleVo.setContent(rs.getString("content"));
-            articleVo.setCommentAccount(rs.getInt("comment_account"));
-            articleVo.setNickname(rs.getString("nickname"));
-            articleVo.setLikeAccount(rs.getInt("like_account"));
-            articleVo.setCreateTime(rs.getTimestamp("create_time").toLocalDateTime());
-            articleVoList.add(articleVo);
-        }
-        return articleVoList;
+        List<ArticleVo> articleVos = BeanHandler.convertArticle(rs);
+        DBUtils.close(connection, pstmt, rs);
+        return articleVos;
     }
+
+
 }

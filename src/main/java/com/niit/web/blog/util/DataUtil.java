@@ -3,7 +3,6 @@ package com.niit.web.blog.util;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -99,5 +98,18 @@ public class DataUtil {
        int account = random.nextInt(73);
        return account;
    }
+
+    public static String getVerification(int a){
+        Random random = new Random();
+        String resultStr="";
+        String strData="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        char[] arr= strData.toCharArray();
+        for(int i=0;i<a;i++){
+            int index= (int) (Math.random()*arr.length);
+            resultStr+=arr[index];
+        }
+        return resultStr;
+
+    };
 
 }

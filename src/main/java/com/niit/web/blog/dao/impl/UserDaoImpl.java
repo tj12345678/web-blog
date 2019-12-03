@@ -1,9 +1,10 @@
 package com.niit.web.blog.dao.impl;
 
 import com.niit.web.blog.dao.UserDao;
+import com.niit.web.blog.domain.Vo.UserVo;
 import com.niit.web.blog.entity.User;
+import com.niit.web.blog.util.BeanHandler;
 import com.niit.web.blog.util.DBUtils;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,7 +50,7 @@ public class UserDaoImpl implements UserDao {
         });
         int[] result = pstmt.executeBatch();
         connection.commit();
-        DBUtils.close(null,pstmt,connection);
+        DBUtils.close(connection,pstmt);
         return result;
     }
 
@@ -80,5 +81,68 @@ public class UserDaoImpl implements UserDao {
 
         }
         return user;
+    }
+
+    @Override
+    public void insert(User user) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "INSERT INTO t_user (mobile,password) VALUES (?,?) ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1, user.getMobile());
+        pst.setString(2, user.getPassword());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public List<User> selectHotUsers() throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_user ORDER BY fans DESC LIMIT 10 ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        List<User> userList = BeanHandler.convertUser(rs);
+        DBUtils.close(connection, pst, rs);
+        return userList;
+    }
+
+    @Override
+    public List<User> selectByPage(int currentPage, int count) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_user LIMIT ?,? ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setInt(1, (currentPage - 1) * count);
+        pst.setInt(2, count);
+        ResultSet rs = pst.executeQuery();
+        List<User> userList = BeanHandler.convertUser(rs);
+        DBUtils.close(connection, pst, rs);
+        return userList;
+    }
+
+    @Override
+    public UserVo getUser(long id) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_user WHERE id = ? ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, id);
+        ResultSet rs = pst.executeQuery();
+        UserVo userVo = new UserVo();
+        User user = BeanHandler.convertUser(rs).get(0);
+        userVo.setUser(user);
+        DBUtils.close(connection, pst, rs);
+        return userVo;
+    }
+
+    @Override
+    public List<User> selectByKeywords(String keywords) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_user " +
+                "WHERE nickname LIKE ?  OR introduction LIKE ? ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1, "%" + keywords + "%");
+        pst.setString(2, "%" + keywords + "%");
+        ResultSet rs = pst.executeQuery();
+        List<User> userList = BeanHandler.convertUser(rs);
+        DBUtils.close(connection, pst, rs);
+        return userList;
     }
 }

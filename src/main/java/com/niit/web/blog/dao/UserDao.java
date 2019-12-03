@@ -1,5 +1,6 @@
 package com.niit.web.blog.dao;
 
+import com.niit.web.blog.domain.Vo.UserVo;
 import com.niit.web.blog.entity.User;
 
 import java.sql.SQLException;
@@ -28,4 +29,45 @@ public interface UserDao {
      * @throws SQLException
      */
     User findUserByMobile(String mobile) throws SQLException;
+
+    /**
+     *新增用户
+     * @param user
+     * @throws SQLException
+     */
+    void insert(User user) throws SQLException;
+
+    /**
+     * 查询热门用户
+     * @return
+     * @throws SQLException
+     */
+    List<User> selectHotUsers() throws SQLException;
+
+    /**
+     * 查询分页用户
+     * @param currentPage
+     * @param count
+     * @return
+     * @throws SQLException
+     */
+    List<User> selectByPage(int currentPage, int count) throws SQLException;
+
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    UserVo getUser(long id) throws SQLException;
+
+    /**
+     * 模糊搜索用户
+     * @param keywords
+     * @return
+     * @throws SQLException
+     */
+    List<User> selectByKeywords(String keywords) throws SQLException;
+
+
 }

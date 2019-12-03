@@ -65,26 +65,71 @@ public class DBUtils {
     }
 
     /**
-     * 关闭数据库连接
+     * 关闭connection
      *
-     * @param rs
-     * @param stat
-     * @param conn
+     * @param connection 连接池对象
      */
-    public static void close(ResultSet rs, Statement stat, Connection conn) {
-        try {
-            if (rs != null) {
-                rs.close();
+    public static void close(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            if (stat != null) {
-                stat.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+    }
+
+    /**
+     * 关闭Statement
+     *
+     * @param statement
+     */
+    public static void close(Statement statement) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 关闭ResultSet
+     *
+     * @param resultSet
+     */
+    public static void close(ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 关闭Connection 以及Statement
+     *
+     * @param connection
+     * @param statement
+     */
+    public static void close(Connection connection, Statement statement) {
+        close(connection);
+        close(statement);
+    }
+
+    /**
+     * 关闭Connection，Statement以及ResultSet
+     *
+     * @param connection
+     * @param statement
+     * @param resultSet
+     */
+    public static void close(Connection connection, Statement statement, ResultSet resultSet) {
+        close(connection, statement);
+        close(resultSet);
     }
 
     public static void main(String[] args) {

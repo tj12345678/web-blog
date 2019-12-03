@@ -1,18 +1,19 @@
 package com.niit.web.blog.domain.Vo;
 
-import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.entity.User;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author tj
- * @ClassName ArticleVo
+ * @ClassName UserVo
  * @Description TODO
- * @Date 2019/11/18
+ * @Date 2019/12/2
  * @Version 1.0
  **/
 @Data
-public class ArticleVo {
-    private Article article;
-    private User author;
+public class UserVo {
+    private User user;
+    private List<ArticleVo> articleList;
 }
