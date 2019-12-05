@@ -23,10 +23,11 @@ import java.io.PrintWriter;
  * @Date 2019/11/18
  * @Version 1.0
  **/
-@WebServlet(urlPatterns = {"/article","/article/*"})
+@WebServlet(urlPatterns = {"/api/article","/api/article/*"})
 public class ArticleController extends HttpServlet {
     private ArticleService articleService = ServiceFactory.getArticleServiceInstance();
     private static Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,6 +78,7 @@ public class ArticleController extends HttpServlet {
         //取得路径参数
         String id = info.substring(info.indexOf("/") + 1);
         Result result = articleService.getArticle(Long.parseLong(id));
+        System.out.println(result.toString());
         Gson gson = new GsonBuilder().create();
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(result));
@@ -85,5 +87,6 @@ public class ArticleController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

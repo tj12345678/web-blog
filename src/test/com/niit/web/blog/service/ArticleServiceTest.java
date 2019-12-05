@@ -19,6 +19,9 @@ public class ArticleServiceTest {
 
     @Test
     public void getArticle() {
+        Result result =  articleService.getArticle(1);
+        System.out.println(result.toString());
+
     }
 
     @Test

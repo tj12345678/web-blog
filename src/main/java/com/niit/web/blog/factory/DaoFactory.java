@@ -1,13 +1,7 @@
 package com.niit.web.blog.factory;
 
-import com.niit.web.blog.dao.ArticleDao;
-import com.niit.web.blog.dao.RegionDao;
-import com.niit.web.blog.dao.TopicDao;
-import com.niit.web.blog.dao.UserDao;
-import com.niit.web.blog.dao.impl.ArticleDaoImpl;
-import com.niit.web.blog.dao.impl.RegionDaoImpl;
-import com.niit.web.blog.dao.impl.TopicDaoImpl;
-import com.niit.web.blog.dao.impl.UserDaoImpl;
+import com.niit.web.blog.dao.*;
+import com.niit.web.blog.dao.impl.*;
 
 /**
  * @author tj
@@ -32,5 +26,9 @@ public class DaoFactory {
 
     public static RegionDao getRegionDaoInstance() {
         return new RegionDaoImpl();
+    }
+
+    public static FollowDao getFollowDaoInstance(){
+        return new FollowDaoImpl();
     }
 }
