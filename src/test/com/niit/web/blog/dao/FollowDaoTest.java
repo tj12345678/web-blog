@@ -12,6 +12,18 @@ public class FollowDaoTest {
     @Test
     public void getUserFollows() throws SQLException {
         List<User> userList = followDao.getUserFollows(2);
-        System.out.println(userList.size());
+        userList.forEach(System.out::println);
+    }
+
+    @Test
+    public void getUserFans() throws SQLException {
+        List<User> userList = followDao.getUserFans(2);
+        userList.forEach(System.out::println);
+    }
+
+    @Test
+    public void getTopicFollows() throws SQLException {
+        List<User> userList = followDao.getTopicFollows(2);
+        userList.forEach(System.out::println);
     }
 }

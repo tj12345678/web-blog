@@ -1,18 +1,17 @@
-package com.niit.web.blog.dao;
+package com.niit.web.blog.service;
 
-import com.niit.web.blog.entity.User;
+import com.niit.web.blog.util.Result;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author tj
- * @ClassName FollowDao
+ * @ClassName FollowService
  * @Description TODO
- * @Date 2019/12/3
+ * @Date 2019/12/5
  * @Version 1.0
  **/
-public interface FollowDao {
+public interface FollowService {
     /**
      * 根据用户id获取他关注的用户列表
      *
@@ -20,16 +19,16 @@ public interface FollowDao {
      * @return
      * @throws SQLException
      */
-    List<User> getUserFollows(long userId) throws SQLException;
+    Result getUserFollows(long userId);
 
     /**
-     * 根据用户id获取他的粉丝列表
+     * 获取用户的粉丝列表
      *
      * @param userId
      * @return
      * @throws SQLException
      */
-    List<User> getUserFans(long userId) throws SQLException;
+    Result getUserFans(long userId) ;
 
     /**
      * 根据专题id获取其所有关注用户
@@ -37,5 +36,5 @@ public interface FollowDao {
      * @return
      * @throws SQLException
      */
-    List<User> getTopicFollows(long topicId) throws SQLException;
+    Result getTopicFollows(long topicId) ;
 }

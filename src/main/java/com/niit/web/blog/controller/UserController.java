@@ -32,8 +32,8 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String uri = req.getRequestURI().trim();
-        if (UrlPatten.USER.equals(uri)) {
+        String url = req.getRequestURI().trim();
+        if (UrlPatten.USER.equals(url)) {
             String page = req.getParameter("page");
             String keywords = req.getParameter("keywords");
             String count = req.getParameter("count");
@@ -45,7 +45,7 @@ public class UserController extends HttpServlet {
                 HttpUtil.getResponseBody(resp, userService.getHotUsers());
             }
         } else {
-            System.out.println(uri);
+            System.out.println(url);
             HttpUtil.getResponseBody(resp, userService.getUser(Long.parseLong(HttpUtil.getPathParam(req))));
         }
     }
@@ -53,8 +53,8 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String uri = req.getRequestURI().trim();
-        switch (uri) {
+        String url = req.getRequestURI().trim();
+        switch (url) {
             case UrlPatten.USER_SIGN_IN:
                 signIn(req, resp);
                 break;

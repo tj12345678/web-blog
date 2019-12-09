@@ -32,8 +32,8 @@ public class ArticleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //取得请求地址
-        String uri = req.getRequestURI().trim();
-        if ("/api/article".equals(uri)) {
+        String url = req.getRequestURI().trim();
+        if ("/api/article".equals(url)) {
             String page = req.getParameter("page");
             String keywords = req.getParameter("keywords");
             String count = req.getParameter("count");

@@ -30,8 +30,8 @@ public class TopiceControler extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String uri = req.getRequestURI().trim();
-        if ("/api/topic".equals(uri)) {
+        String url = req.getRequestURI().trim();
+        if ("/api/topic".equals(url)) {
             String page = req.getParameter("page");
             String keywords = req.getParameter("keywords");
             String count = req.getParameter("count");

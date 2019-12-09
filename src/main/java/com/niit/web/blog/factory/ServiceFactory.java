@@ -1,9 +1,11 @@
 package com.niit.web.blog.factory;
 
 import com.niit.web.blog.service.ArticleService;
+import com.niit.web.blog.service.FollowService;
 import com.niit.web.blog.service.TopicService;
 import com.niit.web.blog.service.UserService;
 import com.niit.web.blog.service.impl.ArticleServiceImpl;
+import com.niit.web.blog.service.impl.FollowServiceImpl;
 import com.niit.web.blog.service.impl.TopicServiceImpl;
 import com.niit.web.blog.service.impl.UserServiceImpl;
 
@@ -23,6 +25,9 @@ public class ServiceFactory {
     }
     public static TopicService getTopicServiceInstance() {
         return new TopicServiceImpl();
+    }
+    public static FollowService getFollowServiceInstance(){
+        return new FollowServiceImpl();
     }
 
 }
