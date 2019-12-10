@@ -23,7 +23,7 @@ public interface FollowDao {
     List<User> getUserFollows(long userId) throws SQLException;
 
     /**
-     * 根据用户id获取他的粉丝列表
+     * 根据用户id获取他 的粉丝列表
      *
      * @param userId
      * @return

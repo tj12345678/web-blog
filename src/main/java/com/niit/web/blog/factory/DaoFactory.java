@@ -31,4 +31,8 @@ public class DaoFactory {
     public static FollowDao getFollowDaoInstance(){
         return new FollowDaoImpl();
     }
+
+    public static CommentDao getCommentInstance(){
+        return new CommentDaoImpl();
+    }
 }

@@ -45,7 +45,6 @@ public class UserController extends HttpServlet {
                 HttpUtil.getResponseBody(resp, userService.getHotUsers());
             }
         } else {
-            System.out.println(url);
             HttpUtil.getResponseBody(resp, userService.getUser(Long.parseLong(HttpUtil.getPathParam(req))));
         }
     }

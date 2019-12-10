@@ -87,9 +87,9 @@ public class FollowDaoImpl implements FollowDao {
         int i=0;
         int x=userList.size();
         List<User> userList1 = new ArrayList<>();
-        while (i<x){
+        while (i<x) {
             UserVo userVo = new UserVo();
-            userVo=userDao.getUser(userList.get(i).getFromId());
+            userVo = userDao.getUser(userList.get(i).getFromId());
             userList1.add(userVo.getUser());
             i++;
         }

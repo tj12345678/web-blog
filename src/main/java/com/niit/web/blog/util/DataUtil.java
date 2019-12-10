@@ -108,6 +108,10 @@ public class DataUtil {
         int bound = random.nextInt(999);
         return now.minusHours(bound);
     }
+    public static LocalDateTime getNowTime(){
+        LocalDateTime now = LocalDateTime.now();
+        return now;
+    }
 
     /**
      * @return
@@ -119,6 +123,8 @@ public class DataUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(DigestUtils.md5Hex("111"));
+//        System.out.println(DigestUtils.md5Hex("111"));
+        System.out.println(getCreateTime());
+        System.out.println(getNowTime());
     }
 }
