@@ -1,6 +1,7 @@
 package com.niit.web.blog.service;
 
 import com.niit.web.blog.domain.Dto.UserDto;
+import com.niit.web.blog.entity.User;
 import com.niit.web.blog.util.Result;
 
 /**
@@ -18,6 +19,20 @@ public interface UserService {
      * @return Result
      */
     Result signIn(UserDto userDto);
+
+    /**
+     * 删除功能
+     * @param userId
+     * @return
+     */
+    Result delete(Long userId);
+
+    /**
+     * 用户修改功能
+     * @param user
+     * @return
+     */
+    Result changeUser(User user);
 
     /**
      * 获取热门用户信息

@@ -138,4 +138,38 @@ public class UserDaoImpl implements UserDao {
         DBUtils.close(connection, pst, rs);
         return userList;
     }
+
+    @Override
+    public void deleteUserById(Long userId) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "DELETE FROM t_user WHERE id = ?  ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, userId);
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+
+
+    @Override
+    public void changeUser(User user) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "Update t_user Set mobile=?,password=?,nickname=?,avatar=?,gender=?,birthday=?,address=?,introduction=?,banner=?,email=?,homepage=?  Where id = ?";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1, user.getMobile());
+        pst.setString(2,user.getPassword());
+        pst.setString(3,user.getNickname());
+        pst.setString(4,user.getAvatar());
+        pst.setString(5,user.getGender());
+        pst.setObject(6,user.getBirthday());
+        pst.setString(7,user.getAddress());
+        pst.setString(8,user.getIntroduction());
+        pst.setString(9,user.getBanner());
+        pst.setString(10,user.getEmail());
+        pst.setString(11,user.getHomepage());
+        pst.setLong(12,user.getId());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+
+    }
 }

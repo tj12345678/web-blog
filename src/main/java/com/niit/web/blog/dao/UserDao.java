@@ -61,6 +61,7 @@ public interface UserDao {
      */
     UserVo getUser(long id) throws SQLException;
 
+
     /**
      * 模糊搜索用户
      * @param keywords
@@ -68,6 +69,22 @@ public interface UserDao {
      * @throws SQLException
      */
     List<User> selectByKeywords(String keywords) throws SQLException;
+
+    /**
+     * 根据id删除用户
+     * @param userId
+     * @throws SQLException
+     */
+    void deleteUserById(Long userId) throws SQLException;
+
+
+    /**
+     * 修改用户
+     * @param user
+     * @return
+     * @throws SQLException
+     */
+    void changeUser(User user) throws SQLException;
 
 
 }

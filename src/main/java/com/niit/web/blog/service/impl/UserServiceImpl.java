@@ -52,6 +52,26 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Result delete(Long userId) {
+        try {
+            userDao.deleteUserById(userId);
+        } catch (SQLException e) {
+            logger.error("删除用户失败");
+        }
+        return Result.success(userId);
+    }
+
+    @Override
+    public Result changeUser(User user) {
+        try {
+            userDao.changeUser(user);
+        } catch (SQLException e) {
+            logger.error("用户修改失败");
+        }
+        return Result.success(user);
+    }
+
 
     @Override
     public Result getHotUsers() {
