@@ -5,6 +5,7 @@ import com.niit.web.blog.domain.Vo.ArticleVo;
 import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.util.BeanHandler;
 import com.niit.web.blog.util.DBUtils;
+import com.niit.web.blog.util.DataUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,48 @@ public class ArticleDaoImpl implements ArticleDao {
         });
         pst.executeBatch();
 //        connection.commit();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public void insert(Article article) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "INSERT INTO t_article (user_id,topic_id,title,summary,thumbnail,content,create_time) VALUES (?,?,?,?,?,?,?)  ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, article.getUserId());
+        pst.setLong(2, article.getTopicId());
+        pst.setString(3, article.getTitle());
+        pst.setString(4, article.getSummary());
+        pst.setString(5, article.getThumbnail());
+        pst.setString(6, article.getContent());
+        pst.setObject(7, DataUtil.getNowTime());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+
+    }
+
+    @Override
+    public void delete(Long id) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "DELETE FROM t_article WHERE id = ?  ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, id);
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public void changeArticle(Article article) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql="Update t_article Set topic_id=?,title=?,summary=?,thumbnail=?,content=? Where id = ?";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1,article.getTopicId());
+        pst.setString(2,article.getTitle());
+        pst.setString(3,article.getSummary());
+        pst.setString(4,article.getThumbnail());
+        pst.setString(5,article.getContent());
+        pst.setLong(6,article.getId());
+        pst.executeUpdate();
         DBUtils.close(connection, pst);
     }
 

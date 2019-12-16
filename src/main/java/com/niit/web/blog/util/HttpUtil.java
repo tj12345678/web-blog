@@ -48,6 +48,7 @@ public class HttpUtil {
      * @param result
      */
     public static void getResponseBody(HttpServletResponse response, Result result) {
+        System.out.println(result);
         Gson gson = new GsonBuilder().create();
         PrintWriter out = null;
         try {

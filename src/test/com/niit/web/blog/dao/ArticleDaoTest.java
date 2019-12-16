@@ -1,6 +1,7 @@
 package com.niit.web.blog.dao;
 
 import com.niit.web.blog.domain.Vo.ArticleVo;
+import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.factory.DaoFactory;
 import com.niit.web.blog.util.JSoupSpider;
 import org.junit.Test;
@@ -39,5 +40,28 @@ public class ArticleDaoTest {
     public void selectByPage() throws SQLException {
         List<ArticleVo> articleVoList = articleDao.selectByPage(1, 10);
         articleVoList.forEach(System.out::println);
+    }
+
+    @Test
+    public void insert() throws SQLException {
+        Article article = new Article();
+        article.setUserId((long) 31);
+        article.setTopicId((long) 23);
+        article.setTitle("字母");
+        article.setContent("abcdefghou");
+        articleDao.insert(article);
+    }
+
+    @Test
+    public void delete() throws SQLException {
+        ArticleVo article = articleDao.getArticle(29);
+        articleDao.delete(article.getArticle().getId());
+    }
+
+    @Test
+    public void changeArticle() throws SQLException {
+        ArticleVo article = articleDao.getArticle(29);
+        article.getArticle().setTitle("字母123");
+        articleDao.changeArticle(article.getArticle());
     }
 }

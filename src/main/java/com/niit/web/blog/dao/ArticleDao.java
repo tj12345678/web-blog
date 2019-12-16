@@ -25,6 +25,27 @@ public interface ArticleDao {
      */
     void batchInsert(List<Article> articleList) throws SQLException;
 
+    /**
+     * 添加文章
+     * @param article
+     * @throws SQLException
+     */
+    void insert(Article article) throws SQLException;
+
+    /**
+     * 删除文章
+     * @param id
+     * @throws SQLException
+     */
+    void delete(Long id) throws SQLException;
+
+    /**
+     * 修改文章
+     * @param article
+     * @throws SQLException
+     */
+    void changeArticle(Article article) throws SQLException;
+
 
     /**
      * 查询热门文章，返回视图集合

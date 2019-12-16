@@ -1,5 +1,6 @@
 package com.niit.web.blog.dao;
 
+import com.niit.web.blog.domain.Vo.UserVo;
 import com.niit.web.blog.entity.User;
 import com.niit.web.blog.factory.DaoFactory;
 import com.niit.web.blog.util.JSoupSpider;
@@ -38,5 +39,23 @@ public class UserDaoTest {
     public void selectByKeywords() throws SQLException{
         List<User> userList = userDao.selectByKeywords("王");
         userList.forEach(System.out::println);
+    }
+
+    @Test
+    public void deleteUserById() throws SQLException {
+        userDao.deleteUserById((long) 23);
+    }
+
+    @Test
+    public void changeUser() throws SQLException {
+        UserVo user=userDao.getUser(23);
+        user.getUser().setAddress("123212312");
+        userDao.changeUser(user.getUser());
+    }
+
+    @Test
+    public void getUser() throws SQLException {
+        UserVo user=userDao.getUser(23);
+        System.out.println(user.getUser());
     }
 }

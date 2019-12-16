@@ -1,5 +1,6 @@
 package com.niit.web.blog.service;
 
+import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.util.Result;
 
 /**
@@ -17,6 +18,26 @@ public interface ArticleService {
      */
     Result getHotArticles();
 
+    /**
+     * 发布文章
+     * @param article
+     * @return
+     */
+    Result insert(Article article);
+
+    /**
+     * 删除文章
+     * @param id
+     * @return
+     */
+    Result delete(Long id);
+
+    /**
+     * 修改文章
+     * @param article
+     * @return
+     */
+    Result changeArticle(Article article);
     /**
      * 获取分页文章
      *

@@ -2,6 +2,7 @@ package com.niit.web.blog.service.impl;
 
 import com.niit.web.blog.dao.ArticleDao;
 import com.niit.web.blog.domain.Vo.ArticleVo;
+import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.factory.DaoFactory;
 import com.niit.web.blog.service.ArticleService;
 import com.niit.web.blog.util.Result;
@@ -36,6 +37,37 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
+    }
+
+    @Override
+    public Result insert(Article article) {
+        try {
+            articleDao.insert(article);
+        } catch (SQLException e) {
+            logger.error("添加文章出现异常");
+        }
+        return Result.success(article);
+    }
+
+    @Override
+    public Result delete(Long id) {
+        try {
+            articleDao.delete(id);
+        } catch (SQLException e) {
+            logger.error("删除文章出现异常");
+        }
+            return Result.success(id);
+
+    }
+
+    @Override
+    public Result changeArticle(Article article) {
+        try {
+            articleDao.changeArticle(article);
+        } catch (SQLException e) {
+            logger.error("修改文章出现异常");
+        }
+        return Result.success(article);
     }
 
     @Override
