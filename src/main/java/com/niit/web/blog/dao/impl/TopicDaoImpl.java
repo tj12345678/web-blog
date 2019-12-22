@@ -141,4 +141,48 @@ public class TopicDaoImpl implements TopicDao {
         return topicList;
     }
 
+    @Override
+    public void insert(Topic topic) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "INSERT INTO t_topic (admin_id,topic_name,logo,description,homepage,articles,follows,create_time) VALUES (?,?,?,?,?,?,?,?) ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, topic.getAdminId());
+        pst.setString(2, topic.getTopicName());
+        pst.setString(3, topic.getLogo());
+        pst.setString(4, topic.getDescription());
+        pst.setString(5, topic.getHomepage());
+        pst.setInt(6, topic.getArticles());
+        pst.setInt(7, topic.getFollows());
+        pst.setObject(8, topic.getCreateTime());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public void delete(Long id) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "DELETE FROM t_topic WHERE id = ?  ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1, id);
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public void change(Topic topic) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "Update t_topic Set topic_name=?,logo=?,description=?,homepage=?,articles=?,follows=?,create_time=?  Where id = ?";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1, topic.getTopicName());
+        pst.setString(2,topic.getLogo());
+        pst.setString(3,topic.getDescription());
+        pst.setString(4,topic.getHomepage());
+        pst.setInt(5,topic.getArticles());
+        pst.setInt(6,topic.getFollows());
+        pst.setObject(7,topic.getCreateTime());
+        pst.setLong(8,topic.getId());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
 }

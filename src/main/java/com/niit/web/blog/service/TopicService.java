@@ -1,5 +1,6 @@
 package com.niit.web.blog.service;
 
+import com.niit.web.blog.entity.Topic;
 import com.niit.web.blog.util.Result;
 
 /**
@@ -41,4 +42,25 @@ public interface TopicService {
      * @return
      */
     Result selectByPage(int currentPage,int count);
+
+    /**
+     * 新增专题
+     * @param topic
+     * @return
+     */
+    Result insert(Topic topic);
+
+    /**
+     * 删除专题
+     * @param id
+     * @return
+     */
+    Result delete(Long id);
+
+    /**
+     * 修改专题
+     * @param topic
+     * @return
+     */
+    Result change(Topic topic);
 }

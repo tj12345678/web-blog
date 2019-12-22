@@ -94,4 +94,34 @@ public class TopicServiceImpl implements TopicService {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
     }
+
+    @Override
+    public Result insert(Topic topic) {
+        try {
+            topicDao.insert(topic);
+        } catch (SQLException e) {
+            logger.error("添加专题失败");
+        }
+        return Result.success(topic);
+    }
+
+    @Override
+    public Result delete(Long id) {
+        try {
+            topicDao.delete(id);
+        } catch (SQLException e) {
+            logger.error("删除专题失败");
+        }
+        return Result.success(id);
+    }
+
+    @Override
+    public Result change(Topic topic) {
+        try {
+            topicDao.change(topic);
+        } catch (SQLException e) {
+            logger.error("修改专题");
+        }
+        return Result.success(topic);
+    }
 }

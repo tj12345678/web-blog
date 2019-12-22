@@ -25,8 +25,8 @@ public class TopicDaoTest {
 
     @Test
     public void selectByKeywords() throws SQLException {
-        List<Topic> topicList = topicDao.selectByKeywords("小");
-        System.out.println(topicList.size());
+        List<Topic> topicList = topicDao.selectByKeywords("人物");
+        topicList.forEach(System.out::println);
     }
 
     @Test

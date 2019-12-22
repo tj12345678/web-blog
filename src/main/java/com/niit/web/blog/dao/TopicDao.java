@@ -62,4 +62,25 @@ public interface TopicDao {
      * @throws SQLException
      */
     List<Topic> selectByKeywords(String keywords) throws SQLException;
+
+    /**
+     * 添加专题
+     * @param topic
+     * @throws SQLException
+     */
+    void insert(Topic topic) throws  SQLException;
+
+    /**
+     * 删除专题
+     * @param id
+     * @throws SQLException
+     */
+    void delete(Long id) throws SQLException;
+
+    /**
+     * 修改专题
+     * @param topic
+     * @throws SQLException
+     */
+    void change(Topic topic) throws SQLException;
 }
