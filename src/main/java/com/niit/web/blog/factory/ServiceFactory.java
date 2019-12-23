@@ -1,13 +1,7 @@
 package com.niit.web.blog.factory;
 
-import com.niit.web.blog.service.ArticleService;
-import com.niit.web.blog.service.FollowService;
-import com.niit.web.blog.service.TopicService;
-import com.niit.web.blog.service.UserService;
-import com.niit.web.blog.service.impl.ArticleServiceImpl;
-import com.niit.web.blog.service.impl.FollowServiceImpl;
-import com.niit.web.blog.service.impl.TopicServiceImpl;
-import com.niit.web.blog.service.impl.UserServiceImpl;
+import com.niit.web.blog.service.*;
+import com.niit.web.blog.service.impl.*;
 
 /**
  * @author tj
@@ -28,6 +22,9 @@ public class ServiceFactory {
     }
     public static FollowService getFollowServiceInstance(){
         return new FollowServiceImpl();
+    }
+    public static CommentService getCommentServiceInstance(){
+        return new CommentServiceImpl();
     }
 
 }

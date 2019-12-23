@@ -6,7 +6,11 @@ import com.niit.web.blog.util.DBUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author tj
@@ -30,4 +34,60 @@ public class CommentDaoImpl implements CommentDao {
         DBUtils.close(connection, pst);
 
     }
+
+
+
+    @Override
+    public void delete(Comment comment) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "DELETE FROM t_comment WHERE user_id = ?  ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+
+        pst.setLong(1, comment.getId());
+        pst.executeUpdate();
+        DBUtils.close(connection, pst);
+    }
+
+    @Override
+    public List<Comment> getComment(Long article) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_comment WHERE article_id=? ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1,article);
+        ResultSet rs = pst.executeQuery();
+        List<Comment> comments = new ArrayList<>();
+        while (rs.next()){
+            Comment comment = new Comment();
+            comment.setId(rs.getLong("id"));
+            comment.setUserId(rs.getLong("user_id"));
+            comment.setArticleId(rs.getLong("article_id"));
+            comment.setCreateTime((LocalDateTime) rs.getObject("create_time"));
+            comment.setContent(rs.getString("content"));
+
+            comments.add(comment);
+        }
+        DBUtils.close(connection, pst, rs);
+        return comments;
+    }
+
+    @Override
+    public List<Comment> getCommentUserId(Long userId) throws SQLException {
+        Connection connection = DBUtils.getConnection();
+        String sql = "SELECT * FROM t_comment WHERE user_id=? ";
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1,userId);
+        ResultSet rs = pst.executeQuery();
+        List<Comment> comments = new ArrayList<>();
+        while (rs.next()){
+            Comment comment = new Comment();
+            comment.setId(rs.getLong("id"));
+            comment.setUserId(rs.getLong("user_id"));
+            comment.setArticleId(rs.getLong("article_id"));
+            comment.setCreateTime((LocalDateTime) rs.getObject("create_time"));
+            comment.setContent(rs.getString("content"));
+
+            comments.add(comment);
+        }
+        DBUtils.close(connection, pst, rs);
+        return comments;    }
 }
