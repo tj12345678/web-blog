@@ -79,10 +79,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void insert(User user) throws SQLException {
         Connection connection = DBUtils.getConnection();
-        String sql = "INSERT INTO t_user (mobile,password) VALUES (?,?) ";
+        String sql = "INSERT INTO t_user (mobile,password,avatar,birthday,create_time) VALUES (?,?,?,?,?) ";
         PreparedStatement pst = connection.prepareStatement(sql);
         pst.setString(1, user.getMobile());
         pst.setString(2, user.getPassword());
+        pst.setString(3,user.getAvatar());
+        pst.setObject(4,user.getBirthday());
+        pst.setObject(5,user.getCreateTime());
         pst.executeUpdate();
         DBUtils.close(connection, pst);
     }
@@ -154,20 +157,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void changeUser(User user) throws SQLException {
         Connection connection = DBUtils.getConnection();
-        String sql = "Update t_user Set mobile=?,password=?,nickname=?,avatar=?,gender=?,birthday=?,address=?,introduction=?,banner=?,email=?,homepage=?  Where id = ?";
+        String sql = "Update t_user Set password=?,nickname=?,gender=?,address=?,introduction=?  Where id = ?";
         PreparedStatement pst = connection.prepareStatement(sql);
-        pst.setString(1, user.getMobile());
-        pst.setString(2,user.getPassword());
-        pst.setString(3,user.getNickname());
-        pst.setString(4,user.getAvatar());
-        pst.setString(5,user.getGender());
-        pst.setObject(6,user.getBirthday());
-        pst.setString(7,user.getAddress());
-        pst.setString(8,user.getIntroduction());
-        pst.setString(9,user.getBanner());
-        pst.setString(10,user.getEmail());
-        pst.setString(11,user.getHomepage());
-        pst.setLong(12,user.getId());
+
+        pst.setString(1,user.getPassword());
+        pst.setString(2,user.getNickname());
+        pst.setString(3,user.getGender());
+        pst.setString(4,user.getAddress());
+        pst.setString(5,user.getIntroduction());
+        pst.setLong(6,user.getId());
         pst.executeUpdate();
         DBUtils.close(connection, pst);
 

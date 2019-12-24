@@ -45,12 +45,10 @@
         </rollingPolicy>
     </appender>
 
-<!--    name的名字为自己包名-->
-    <logger name="com.niit.web.blog">
+    <logger name="com.scs.web.blog">
         <level value="INFO" />
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
         <appender-ref ref="ERROR_FILE" />
     </logger>
-
 </configuration>

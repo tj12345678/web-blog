@@ -63,6 +63,7 @@ public class BeanHandler {
                 article.setTopicId(rs.getLong("topic_id"));
                 article.setTitle(rs.getString("title"));
                 article.setSummary(rs.getString("summary"));
+//                article.setContent(rs.getString("content"));
                 article.setThumbnail(rs.getString("thumbnail"));
                 article.setLikes(rs.getInt("likes"));
                 article.setComments(rs.getInt("comments"));

@@ -50,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
         } catch (SQLException e) {
             logger.error("查询用户评论失败");
         }
-        if (comment == null) {
-            return Result.success(ResultCode.USER_NOT_EXIST);
+        if (comment != null) {
+            return Result.success(comment);
         } else {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         }
@@ -61,12 +61,12 @@ public class CommentServiceImpl implements CommentService {
     public Result getArticleComment(Long articleId) {
         List<Comment> comment = null;
         try {
-            comment=commentDao.getCommentUserId(articleId);
+            comment=commentDao.getComment(articleId);
         } catch (SQLException e) {
             logger.error("查询文章评论失败");
         }
-        if (comment == null) {
-            return Result.success(ResultCode.USER_NOT_EXIST);
+        if (comment != null) {
+            return Result.success(comment);
         } else {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         }

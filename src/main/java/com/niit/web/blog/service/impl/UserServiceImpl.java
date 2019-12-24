@@ -157,8 +157,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result signUp(UserDto userDto) {
-        User user = new User(userDto.getMobile(), userDto.getPassword());
+    public Result signUp(User user) {
+
         try {
             userDao.insert(user);
             return Result.success();

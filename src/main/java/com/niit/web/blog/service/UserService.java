@@ -73,8 +73,8 @@ public interface UserService {
 
     /**
      * 用户注册
-     * @param userDto
+     * @param user
      * @return Result
      */
-    Result signUp(UserDto userDto);
+    Result signUp(User user);
 }

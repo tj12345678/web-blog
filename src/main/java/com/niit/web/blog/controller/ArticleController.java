@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.niit.web.blog.entity.Article;
 import com.niit.web.blog.factory.ServiceFactory;
 import com.niit.web.blog.service.ArticleService;
+import com.niit.web.blog.service.CommentService;
 import com.niit.web.blog.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ import java.io.PrintWriter;
 public class ArticleController extends HttpServlet {
     private ArticleService articleService = ServiceFactory.getArticleServiceInstance();
     private static Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    private CommentService commentService = ServiceFactory.getCommentServiceInstance();
+
 
 
     @Override
@@ -52,17 +55,20 @@ public class ArticleController extends HttpServlet {
             String page = req.getParameter("page");
             String keywords = req.getParameter("keywords");
             String count = req.getParameter("count");
+            String articleId=req.getParameter("articleId");
             if (page != null) {
                 getArticlesByPage(resp, Integer.parseInt(page), Integer.parseInt(count));
             } else if (keywords != null) {
                 getArticlesByKeywords(resp, keywords);
-            } else {
+            } else  {
                 getHotArticles(req, resp);
             }
         } else {
             getArticle(req, resp);
         }
     }
+
+
 
     private void getHotArticles(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new GsonBuilder().create();

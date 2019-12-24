@@ -13,4 +13,7 @@ public class UrlPatten {
     public static final String USER_SIGN_IN = "/api/user/sign-in";
     public static final String USER_SIGN_UP = "/api/user/sign-up";
     public static final String USER_CHECK_MOBILE = "/api/user/check";
+    public static final String COMMENT_ARTICLEID="/api/comment/articleId";
+    public static final String COMMENT_USERID="/api/comment/userId";
+
 }
